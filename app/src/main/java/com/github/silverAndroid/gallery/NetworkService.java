@@ -1,7 +1,7 @@
-package com.github.silverAndroid.jsonplaceholder;
+package com.github.silverAndroid.gallery;
 
-import com.github.silverAndroid.jsonplaceholder.models.Album;
-import com.github.silverAndroid.jsonplaceholder.models.Photo;
+import com.github.silverAndroid.gallery.models.Album;
+import com.github.silverAndroid.gallery.models.Photo;
 
 import java.util.List;
 

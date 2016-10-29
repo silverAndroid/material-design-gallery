@@ -1,4 +1,4 @@
-package com.github.silverAndroid.jsonplaceholder;
+package com.github.silverAndroid.gallery;
 
 import org.junit.Test;
 

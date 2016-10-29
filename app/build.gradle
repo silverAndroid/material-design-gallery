@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.github.silverAndroid.jsonplaceholder"
+        applicationId "com.github.silverAndroid.gallery"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -30,5 +31,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.facebook.fresco:fresco:0.14.1'
+    compile 'com.orhanobut:hawk:2.0.1'
+    apt 'net.simonvt.schematic:schematic-compiler:0.6.8'
+    compile 'net.simonvt.schematic:schematic:0.6.8'
     testCompile 'junit:junit:4.12'
 }

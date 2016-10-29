@@ -1,4 +1,4 @@
-package com.github.silverAndroid.jsonplaceholder;
+package com.github.silverAndroid.gallery;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
