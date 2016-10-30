@@ -22,9 +22,26 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     private ArrayList<ArrayList<Photo>> photos;
 
     public AlbumAdapter(Cursor cursor) {
+        changeCursor(cursor);
+    }
+
+    @Override
+    public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album, parent, false);
+        return new AlbumViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(AlbumViewHolder holder, int position) {
+        Album album = albums.get(position);
+
+        holder.albumName.setText(album.getTitle());
+        holder.numPhotos.setText(photos.get(position).size());
+    }
+
+    public void changeCursor(Cursor cursor) {
         albums = new ArrayList<>();
         photos = new ArrayList<>();
-
         if (cursor.moveToFirst()) {
             Album previousAlbum = null;
             ArrayList<Photo> albumPhotos = new ArrayList<>();
@@ -40,20 +57,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                 previousAlbum = album;
             }
         }
-    }
-
-    @Override
-    public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album, parent, false);
-        return new AlbumViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(AlbumViewHolder holder, int position) {
-        Album album = albums.get(position);
-
-        holder.albumName.setText(album.getTitle());
-        holder.numPhotos.setText(photos.get(position).size());
     }
 
     @Override

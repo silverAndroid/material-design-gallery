@@ -23,15 +23,14 @@ import com.github.silverAndroid.gallery.schematic.PhotoColumns;
  */
 public class AlbumFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static PresenterLayer presenterLayer;
     private RecyclerView recyclerView;
+    private AlbumAdapter adapter;
 
     public AlbumFragment() {
         // Required empty public constructor
     }
 
     public static AlbumFragment newInstance(PresenterLayer presenterLayer) {
-        AlbumFragment.presenterLayer = presenterLayer;
         return new AlbumFragment();
     }
 
@@ -59,11 +58,17 @@ public class AlbumFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        recyclerView.setAdapter(new AlbumAdapter(data));
+        if (adapter == null) {
+            recyclerView.setAdapter(adapter = new AlbumAdapter(data));
+        } else {
+            adapter.changeCursor(data);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        if (adapter != null) {
+            adapter.changeCursor(null);
+        }
     }
 }
