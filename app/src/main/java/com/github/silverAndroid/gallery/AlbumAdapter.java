@@ -23,12 +23,13 @@ import java.util.ArrayList;
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
     private ArrayList<Album> albums;
-    private ArrayList<ArrayList<Photo>> photos;
+    private ArrayList<Photo> photos;
+    private ArrayList<Integer> numPhotosList;
     private PipelineDraweeControllerBuilder controllerBuilder;
     private ItemClickListener<Integer> itemClickListener;
 
     public AlbumAdapter(Cursor cursor) {
-        changeCursor(cursor);
+        changeCursor(cursor, true);
         controllerBuilder = Fresco.newDraweeControllerBuilder();
     }
 
@@ -45,40 +46,56 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         holder.albumName.setText(album.getTitle());
         holder.albumName.setSelected(true);
 
-        Photo photo = photos.get(position).get(0);
+        Photo photo = photos.get(position);
         controllerBuilder = controllerBuilder
                 .setLowResImageRequest(ImageRequest.fromUri(photo.getThumbnailUrl()))
                 .setImageRequest(ImageRequest.fromUri(photo.getUrl()))
                 .setOldController(holder.previewImage.getController());
         holder.previewImage.setController(controllerBuilder.build());
 
-        int numPhotos = photos.get(position).size();
+        int numPhotos = numPhotosList.get(position);
         String numPhotosText = numPhotos + (numPhotos == 1 ? " photo" : " photos");
         holder.numPhotos.setText(numPhotosText);
     }
 
-    public void addCursor(Cursor cursor) {
-
-    }
-
-    public void changeCursor(Cursor cursor) {
-        albums = new ArrayList<>();
-        photos = new ArrayList<>();
+    public void changeCursor(Cursor cursor, boolean refresh) {
+        if (refresh) {
+            albums = new ArrayList<>();
+            photos = new ArrayList<>();
+            numPhotosList = new ArrayList<>();
+        }
+        int albumsAdded = 0;
+        int previousSize = albums.size();
         if (cursor != null && cursor.moveToFirst()) {
             Album previousAlbum = null;
-            ArrayList<Photo> albumPhotos = new ArrayList<>();
+            Photo photo = null;
+            int numPhotos = 0;
             do {
                 Album album = new Album(cursor);
-                Photo photo = new Photo(cursor);
-                albumPhotos.add(photo);
+                if (photo == null)
+                    photo = new Photo(cursor);
+                // Have done this cause of weird bug where first album gets 51 photos and last album gets 49 albums
                 if (previousAlbum != null && !album.equals(previousAlbum)) {
+                    albums.add(previousAlbum);
+                    albumsAdded++;
+                    photos.add(photo);
+                    photo = null;
+                    numPhotosList.add(numPhotos);
+                    numPhotos = 0;
+                } else if (cursor.isLast()) {
                     albums.add(album);
-                    photos.add(albumPhotos);
-                    albumPhotos = new ArrayList<>();
+                    albumsAdded++;
+                    photos.add(photo);
+                    photo = null;
+                    numPhotosList.add(numPhotos);
+                    numPhotos = 0;
                 }
                 previousAlbum = album;
+                numPhotos++;
             } while (cursor.moveToNext());
         }
+
+        notifyItemRangeInserted(previousSize, albumsAdded);
     }
 
     @Override
