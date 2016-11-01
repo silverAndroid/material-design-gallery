@@ -1,5 +1,6 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.presenter;
 
+import com.github.silverAndroid.gallery.NetworkService;
 import com.github.silverAndroid.gallery.models.Album;
 import com.github.silverAndroid.gallery.models.Photo;
 

@@ -1,4 +1,4 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.adapters;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,8 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.request.ImageRequest;
+import com.github.silverAndroid.gallery.ItemClickListener;
+import com.github.silverAndroid.gallery.R;
 import com.github.silverAndroid.gallery.models.Photo;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.ui.fragments;
 
 
 import android.database.Cursor;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.imagepipeline.request.ImageRequest;
+import com.github.silverAndroid.gallery.R;
+import com.github.silverAndroid.gallery.Util;
 import com.github.silverAndroid.gallery.lib.facebook.zoomable.ZoomableDraweeView;
 import com.github.silverAndroid.gallery.models.Photo;
 import com.github.silverAndroid.gallery.schematic.GalleryDB;

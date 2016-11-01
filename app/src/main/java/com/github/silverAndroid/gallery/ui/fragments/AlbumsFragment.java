@@ -1,4 +1,4 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.ui.fragments;
 
 
 import android.database.Cursor;
@@ -15,7 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.silverAndroid.gallery.lib.recyclerview.EndlessRecyclerViewScrollListener;
+import com.github.silverAndroid.gallery.ItemClickListener;
+import com.github.silverAndroid.gallery.R;
+import com.github.silverAndroid.gallery.Util;
+import com.github.silverAndroid.gallery.adapters.AlbumAdapter;
 import com.github.silverAndroid.gallery.models.Album;
 import com.github.silverAndroid.gallery.models.Photo;
 import com.github.silverAndroid.gallery.schematic.AlbumColumns;
@@ -129,7 +132,7 @@ public class AlbumsFragment extends Fragment implements LoaderManager.LoaderCall
         albumSelectedListener.albumSelected(albumID);
     }
 
-    interface AlbumSelectedListener {
+    public interface AlbumSelectedListener {
         void albumSelected(int albumID);
     }
 }

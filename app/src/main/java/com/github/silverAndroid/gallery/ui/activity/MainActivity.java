@@ -1,21 +1,26 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.ui.activity;
 
 import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.silverAndroid.gallery.MyApplication;
+import com.github.silverAndroid.gallery.NetworkService;
+import com.github.silverAndroid.gallery.R;
+import com.github.silverAndroid.gallery.ui.fragments.AlbumFragment;
+import com.github.silverAndroid.gallery.ui.fragments.AlbumsFragment;
+import com.github.silverAndroid.gallery.ui.fragments.PhotoFragment;
 import com.github.silverAndroid.gallery.models.Album;
 import com.github.silverAndroid.gallery.models.Photo;
+import com.github.silverAndroid.gallery.presenter.PresenterLayer;
 import com.github.silverAndroid.gallery.schematic.GalleryDBProvider;
 import com.orhanobut.hawk.Hawk;
 

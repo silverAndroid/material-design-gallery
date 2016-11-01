@@ -1,4 +1,4 @@
-package com.github.silverAndroid.gallery;
+package com.github.silverAndroid.gallery.ui.fragments;
 
 
 import android.database.Cursor;
@@ -14,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.silverAndroid.gallery.ItemClickListener;
+import com.github.silverAndroid.gallery.R;
+import com.github.silverAndroid.gallery.Util;
+import com.github.silverAndroid.gallery.adapters.PhotoAdapter;
 import com.github.silverAndroid.gallery.models.Photo;
 import com.github.silverAndroid.gallery.schematic.GalleryDB;
 import com.github.silverAndroid.gallery.schematic.GalleryDBProvider;
@@ -98,7 +102,7 @@ public class AlbumFragment extends Fragment implements LoaderManager.LoaderCallb
         photoSelectedListener.photoSelected(photoID);
     }
 
-    interface PhotoSelectedListener {
+    public interface PhotoSelectedListener {
         void photoSelected(int photoID);
     }
 }
