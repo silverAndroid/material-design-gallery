@@ -17,6 +17,6 @@ public class Util {
         if (query != null && !query.isEmpty()) {
             query += String.format(" AS %s", alias);
         }
-        return query;   
+        return query;
     }
 }
