@@ -3,7 +3,9 @@ package com.github.silverAndroid.gallery.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.github.silverAndroid.gallery.Util;
 import com.github.silverAndroid.gallery.schematic.AlbumColumns;
+import com.github.silverAndroid.gallery.schematic.GalleryDB;
 
 /**
  * Created by silver_android on 26/10/16.
@@ -21,10 +23,15 @@ public class Album {
         this.title = title;
     }
 
+    public static class Alias {
+        public static final String id = "album_id";
+        public static final String title = "album_title";
+    }
+
     public Album(Cursor cursor) {
         userID = cursor.getInt(cursor.getColumnIndexOrThrow(AlbumColumns.userID));
-        id = cursor.getInt(cursor.getColumnIndexOrThrow(AlbumColumns.id));
-        title = cursor.getString(cursor.getColumnIndexOrThrow(AlbumColumns.title));
+        id = cursor.getInt(cursor.getColumnIndexOrThrow(Alias.id));
+        title = cursor.getString(cursor.getColumnIndexOrThrow(Alias.title));
     }
 
     public int getUserID() {
