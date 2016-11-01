@@ -36,8 +36,8 @@ public class GalleryDBProvider {
         @ContentUri(
                 path = Path.ALBUM,
                 type = "vnd.android.cursor.dir/album",
-                join = "JOIN " + GalleryDB.Tables.PHOTO + " p ON p." + PhotoColumns.albumID + " = "
-                        + GalleryDB.Tables.ALBUM + "." + AlbumColumns.id
+                join = "JOIN " + GalleryDB.Tables.PHOTO + " ON " + GalleryDB.Tables.PHOTO + "." + PhotoColumns.albumID
+                        + " = " + GalleryDB.Tables.ALBUM + "." + AlbumColumns.id
         )
         public static final Uri CONTENT_URI = buildUri(Path.ALBUM);
 
@@ -70,6 +70,17 @@ public class GalleryDBProvider {
         )
         public static Uri withId(int id) {
             return buildUri(Path.PHOTO, String.valueOf(id));
+        }
+
+        @InexactContentUri(
+                name = "photo_album_id",
+                path = Path.PHOTO + "/" + Path.ALBUM + "/#",
+                type = "vnd.android.cursor.dir/photo",
+                whereColumn = PhotoColumns.albumID,
+                pathSegment = 2
+        )
+        public static Uri withAlbumId(int albumId) {
+            return buildUri(Path.PHOTO, Path.ALBUM, String.valueOf(albumId));
         }
     }
 }

@@ -10,7 +10,7 @@ import net.simonvt.schematic.annotation.Table;
 @Database(version = GalleryDB.VERSION)
 public final class GalleryDB {
 
-    public static final int VERSION = 1;
+    static final int VERSION = 1;
 
     public static class Tables {
         @Table(AlbumColumns.class)
