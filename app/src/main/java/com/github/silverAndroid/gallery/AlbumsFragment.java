@@ -10,6 +10,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.github.silverAndroid.gallery.schematic.PhotoColumns;
  */
 public class AlbumsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, ItemClickListener<Integer> {
 
+    private static final String TAG = "AlbumsFragment";
     private static AlbumSelectedListener albumSelectedListener;
     private RecyclerView recyclerView;
     private AlbumAdapter adapter;
@@ -53,35 +55,38 @@ public class AlbumsFragment extends Fragment implements LoaderManager.LoaderCall
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
-        GridLayoutManager layoutManager;
-        recyclerView.setLayoutManager(layoutManager = new GridLayoutManager(getContext(), 2));
+//        GridLayoutManager layoutManager;
+        recyclerView.setLayoutManager(/*layoutManager = */new GridLayoutManager(getContext(), 2));
         recyclerView.setHasFixedSize(true);
 
         if (adapter != null) {
             recyclerView.setAdapter(adapter);
         }
 
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        /*EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                refresh = true;
-                Bundle args = new Bundle();
-                args.putInt("page", page);
-                getLoaderManager().restartLoader(10, args, AlbumsFragment.this);
+                refresh = false;
+                Log.i(TAG, "onLoadMore: Page: " + page);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("page", page);
+                getLoaderManager().restartLoader(10, bundle, AlbumsFragment.this);
             }
         };
+        recyclerView.addOnScrollListener(scrollListener);
 
-        refresh = false;
+        refresh = true;*/
         getLoaderManager().initLoader(10, null, this);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String limitOffset = "limit 100";
-        if (refresh) {
-            int offset = 100 * args.getInt("page");
-            limitOffset += " offset" + offset;
-        }
+        /*final int limit = 500;
+        String limitOffset = String.format("LIMIT %d OFFSET %d", limit, !refresh ? (limit * args.getInt("page")) : 0);
+        Log.i(TAG, "onCreateLoader: " + limitOffset);*/
+        Log.d(TAG, "onCreateLoader: New CursorLoader");
+        refresh = false;
         return new CursorLoader(
                 getContext(),
                 GalleryDBProvider.Album.CONTENT_URI,
@@ -94,25 +99,28 @@ public class AlbumsFragment extends Fragment implements LoaderManager.LoaderCall
                         Util.getColumn(GalleryDB.Tables.PHOTO, PhotoColumns.title, Photo.Alias.title),
                         PhotoColumns.url,
                         PhotoColumns.thumbnailURL
-                }, null, null,
-                limitOffset
+                }, null, null, /*PhotoColumns.albumID + " " + limitOffset*/ null
         );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//        Log.i(TAG, "onLoadFinished: refresh = " + String.valueOf(refresh));
+        Log.d(TAG, "onLoadFinished: New data");
         if (adapter == null) {
             recyclerView.setAdapter(adapter = new AlbumAdapter(data));
             adapter.setOnItemClickListener(this);
         } else {
-            adapter.changeCursor(data);
+            adapter.changeCursor(data, refresh);
+            refresh = true;
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset: Reset data");
         if (adapter != null) {
-            adapter.changeCursor(null);
+            adapter.changeCursor(null, true);
         }
     }
 
