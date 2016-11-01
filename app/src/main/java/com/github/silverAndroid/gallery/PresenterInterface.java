@@ -6,6 +6,7 @@ import com.github.silverAndroid.gallery.models.Photo;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 
 /**
@@ -14,7 +15,7 @@ import retrofit2.Callback;
 
 public interface PresenterInterface {
 
-    void loadAlbumsFromNetwork(Callback<List<Album>> callback);
+    Call loadAlbums(Callback<List<Album>> callback);
 
-    void loadPhotosFromNetwork(Callback<List<Photo>> callback);
+    Call loadPhotos(Callback<List<Photo>> callback);
 }
